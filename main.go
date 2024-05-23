@@ -16,13 +16,13 @@ import (
 
 
 func main(){
-	lambda.Start(EjecucionLambda)
+	lambda.Start(EjecutoLambda)
 }
 //Para llamar el API Gateway de AWS, esta funcion desde aws nos va retornar una info de tipo puntero
-func EjecucionLambda(ctx context.Context, request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error){
+func EjecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error){
 	var res *events.APIGatewayProxyResponse
 
-	awsgo.InicializadoAWS()
+	awsgo.InicializoAWS()
 
 	if !ValidoParametros(){
 		res = &events.APIGatewayProxyResponse {
@@ -72,12 +72,12 @@ func EjecucionLambda(ctx context.Context, request events.APIGatewayProxyRequest)
 		return res, nil	
 	}
 
-	restAPI := handlers.Manejadores(awsgo.Ctx, request)
+	respAPI := handlers.Manejadores(awsgo.Ctx, request)
 	//Si despues de la peticion no viene bien armada la respuesta la generamos una respuesta personalizamos
-	if restAPI.CustomResp == nil{
+	if respAPI.CustomResp == nil{
 		res = &events.APIGatewayProxyResponse {
-			StatusCode: restAPI.Status,
-			Body: restAPI.Message,
+			StatusCode: respAPI.Status,
+			Body: respAPI.Message,
 			Headers: map[string]string{
 				"Content-Type": "application/json",
 			},
@@ -85,7 +85,7 @@ func EjecucionLambda(ctx context.Context, request events.APIGatewayProxyRequest)
 
 		return res, nil
 	}else{
-		return restAPI.CustomResp, nil
+		return respAPI.CustomResp, nil
 	}
 }
 

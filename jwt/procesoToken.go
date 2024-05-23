@@ -15,7 +15,7 @@ func ProcesoToken(tk string, JWTSign string) (*models.Claim, bool, string, error
 	miClave := []byte(JWTSign)
 	var claims models.Claim
 
-	//quitar del token la plabra bearer
+	//quitar del token la palabra bearer
 	splitToken := strings.Split(tk,"Bearer")
 	if len(splitToken) != 2 {
 		return &claims, false, string(""), errors.New("Formato de token no valido")

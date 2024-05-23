@@ -9,9 +9,9 @@ import (
 	"github.com/MarcoABCH/GoAPITwitter/models"
 )
 
-func Registro(ctx context.Context) models.RestApi {
+func Registro(ctx context.Context) models.RespApi {
 	var t models.Usuario
-	var r models.RestApi
+	var r models.RespApi
 	r.Status = 400
 
 	fmt.Println("Entre a Registro")
@@ -19,13 +19,13 @@ func Registro(ctx context.Context) models.RestApi {
 	body := ctx.Value(models.Key("body")).(string)
 	err := json.Unmarshal([]byte(body), &t)
 
-	if err!=nil{
+	if err != nil {
 		r.Message=err.Error()
 		fmt.Println(r.Message)
 		return r
 	}
 	
-	if len(t.Email) == 0 {
+	if len(t.Email)==0 {
 		r.Message="Debe de especificar el email"
 		fmt.Println(r.Message)
 		return r

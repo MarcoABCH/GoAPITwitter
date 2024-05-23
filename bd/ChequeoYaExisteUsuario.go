@@ -9,9 +9,7 @@ import (
 
 func ChequeoYaExisteUsuario(email string) (models.Usuario, bool, string){
 	ctx:= context.TODO()
-
 	db := MongoClient.Database(DatabaseName)
-
 	col := db.Collection("usuarios")
 
 	condition := bson.M{"email" : email}
@@ -19,7 +17,6 @@ func ChequeoYaExisteUsuario(email string) (models.Usuario, bool, string){
 	var resultado models.Usuario
 
 	err:= col.FindOne(ctx, condition).Decode(&resultado)
-
 	ID:= resultado.ID.Hex() //Converite a string el Id para pasarlo y devolverlo
 	if err!= nil{
 		return resultado, false, ID 

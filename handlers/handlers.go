@@ -10,14 +10,14 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 )
 
-func Manejadores(ctx context.Context, request events.APIGatewayProxyRequest) models.RestApi{
+func Manejadores(ctx context.Context, request events.APIGatewayProxyRequest) models.RespApi{
 	fmt.Println("Voy a procesar "+ ctx.Value(models.Key("path")).(string) + " > " + ctx.Value(models.Key("method")).(string))
 
-	var r models.RestApi
+	var r models.RespApi
 	//Default hay un error
 	r.Status=400
 
-	isOK, statusCode, msg, _ := validoAuthorization(ctx, request)//el 4to parametro es claims pero la quitamos con _ 
+	isOK, statusCode, msg, _ := validoAuthorization(ctx, request)//el 4to parametro es claim pero la quitamos con _ 
 
 	if !isOK {
 		r.Status = statusCode
